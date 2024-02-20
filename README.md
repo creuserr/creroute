@@ -162,7 +162,11 @@ params = {
 {
   real: Object,
   set: Function(header, value),
-  end: Function(status, content)
+  end: Function(status, content),
+  redirect: Function(url, status?)
 }
 ```
 
+`real` is the only non-custom key, which is the actual response object.
+
+#### Set
