@@ -174,6 +174,7 @@ params = {
 `set` is a shortcut function to set a header.
 
 ```javascript
+// req.set(<HEADER>, <VALUE>)
 req.set("Content-Type", "text/plain");
 req.set("Content-Length", 0);
 ```
@@ -183,8 +184,18 @@ req.set("Content-Length", 0);
 `end` closes the connection with content and status.
 
 ```javascript
-req.set
+// req.end(<STATUS>, <CONTENT>)
+req.end(200, "200 Success");
 ```
 
 > [!WARNING]
-> You can only call `end` once. Do not rec
+> Once closed, do not call `end` again to prevent errors.
+
+#### Redirect
+
+`redirect` moves the request to another server. `sratus`
+
+```javascript
+// req.end(<URL>, <STATUS>)
+req.end(200, "200 Success");
+```
