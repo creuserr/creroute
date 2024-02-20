@@ -30,6 +30,7 @@ const router = require("./router.js");
 ## Routing a GET request
 
 ```javascript
+// router.get(<PATH>, <CALLBACK>)
 router.get("/get-route", function(req, res) {
   // ...
 });
@@ -38,6 +39,7 @@ router.get("/get-route", function(req, res) {
 ## Routing a POST request
 
 ```javascript
+// router.post(<PATH>, <CALLBACK>)
 router.post("/post-route", function(req, res) {
   // ...
 });
@@ -45,10 +47,11 @@ router.post("/post-route", function(req, res) {
 
 ## Routing a request
 
-For other methods, use `route`
-
 ```javascript
+// router.route(<METHOD>, <PATH>, <CALLBACK>)
 router.route("DELETE", "/delete-route", function(req, res) {
   // ...
 });
 ```
+
+## Routing a 404 
