@@ -27,6 +27,20 @@ const router = require("./router.js");
 
 # Documentation
 
+## Setup
+
+To set up the router, you need to set the `module.exports` to `router.export`.
+
+```javascript
+const router = require("./router.js");
+
+// ...
+
+module.exports = router.export;
+```
+
+`router.export` 
+
 ## Routes
 
 ### Routing a GET request
