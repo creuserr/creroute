@@ -29,6 +29,12 @@ const router = require("./router.js");
 
 ## Routing a GET request
 
-To route a GET request, assign a fun
+To route a GET request, assign it with `router.get`.
 
 ```javascript
+router.get("/get-route", function(req, res) {
+  // ...
+});
+```
+
+## Routing a POST request
