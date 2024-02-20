@@ -103,4 +103,14 @@ Path: /api/:user/:api/install
 
 ## Request and Response
 
-creroute imolements custom request object and response 
+creroute implements custom request object and response object.
+
+### Request
+
+```javascript
+{
+  query: String,
+  headers: Object,
+  pars:
+}
+```
