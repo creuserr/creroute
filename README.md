@@ -120,4 +120,12 @@ creroute implements custom request object and response object.
 }
 ```
 
-All of those data are inherited from the rewuest
+All of those data are inherited from the request object, excluding `params`, `body`, and `real`.
+
+#### Real
+
+`real` is the actual request object.
+
+#### Parameters
+
+`params` are the parameters passed from the route
