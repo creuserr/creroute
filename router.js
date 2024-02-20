@@ -10,6 +10,13 @@ router._parse = function(raw) {
   });
 }
 
+router.route = function(method, path, func) {
+  router._routes.push({
+    method, func,
+    path: router._parse(path)
+  });
+}
+
 router.get = function(path, func) {
   router._routes.push({
     method: "GET", func,
