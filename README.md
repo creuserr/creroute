@@ -128,4 +128,16 @@ All of those data are inherited from the request object, excluding `params`, `bo
 
 #### Parameters
 
-`params` are the parameters passed from the route
+`params` are the parameters passed from the route.
+
+```javascript
+// Path: /:foo/:bar
+// Request: /hello/world
+
+params = {
+  foo: "hello",
+  bar: "world"
+}
+```
+
+#### body
