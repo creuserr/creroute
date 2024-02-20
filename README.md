@@ -34,6 +34,21 @@ console.log(router._version);
 
 It is very advisable to designate all path to `index.js`.
 
+```json
+{
+  "rewrites": [{
+    "source": "/(.*)",
+    "destination": "/api/index.js"
+  }]
+}
+```
+
+Otherwise, it is required to insert prefix on route paths.
+
+```
+/api/index.js/...
+```
+
 ### In `index.js`
 
 To set up the router, you need to set the `module.exports` to `router.export`.
