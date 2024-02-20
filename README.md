@@ -77,6 +77,13 @@ router.notfound(function(req, res) {
 });
 ```
 
+If not specified, the router will throw this instead.
+
+```javascript
+// WARNING: Using 204 will affect the URL and will not send the provided content.
+res.end(200, "204 No Content: Connection closed by the router");
+```
+
 ## Path syntax
 
 Every router path supports these special path syntax.
