@@ -23,6 +23,7 @@ The only method to install creroute is by [downloading](https://crestatic.vercel
 
 ```javascript
 const router = require("./router.js");
+console.log(router._version);
 ```
 
 # Documentation
