@@ -9,7 +9,14 @@ router.get("/echo/:text", function(req, res) {
   res.end(200, req.params.text);
 });
 
-router.notfound(function(req, res))
+router.notfound(function(req, res) {
+  res.set("Content-Type", "text/plain");
+  res.end(404, "Uh oh, page not found");
+});
 
 module.exports = router.export;
 ```
+
+# Installation
+
+The only method to install creroute is by downloading it and importing it locally. The file 
