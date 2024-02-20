@@ -109,7 +109,7 @@ Path: /:foo/:bar
 /hello/world -> Accepted
 ```
 
-Moreover, you can interchangeably use them.
+Moreover, you can use them both.
 
 ```
 Path: /api/:user/:api/install
@@ -147,13 +147,13 @@ All of those data are inherited from the request object, excluding `params`, `bo
 
 #### Parameters
 
-`params` are the parameters passed from the route.
+`params` are the parameters passed from the path.
 
 ```javascript
 // Path: /:foo/:bar
 // Request: /hello/world
 
-params = {
+req.params = {
   foo: "hello",
   bar: "world"
 }
