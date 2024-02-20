@@ -93,3 +93,8 @@ Path: /:foo/:bar
 Moreover, you can interchangeably use them.
 
 ```
+Path: /api/:user/:api/install
+
+/johndoe/my-api -> Not accepted
+/api/johndoe/my-api -> Not accepted
+```
