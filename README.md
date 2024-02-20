@@ -19,4 +19,16 @@ module.exports = router.export;
 
 # Installation
 
-The only method to install creroute is by downloading it and importing it locally. The file 
+The only method to install creroute is by downloading it and importing it locally.
+
+```javascript
+const router = require("./router.js");
+```
+
+# Documentation
+
+## Routing a GET request
+
+To route a GET request, assign a fun
+
+```javascript
