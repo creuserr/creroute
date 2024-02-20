@@ -30,6 +30,12 @@ console.log(router._version);
 
 ## Setup
 
+### In `vercel.json`
+
+It is very advisable to destinat
+
+### In `index.js`
+
 To set up the router, you need to set the `module.exports` to `router.export`.
 
 ```javascript
