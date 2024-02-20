@@ -97,4 +97,10 @@ Path: /api/:user/:api/install
 
 /johndoe/my-api -> Not accepted
 /api/johndoe/my-api -> Not accepted
+/api/johndoe/my-api/docs -> Not accepted
+/api/johndoe/my-api/install -> Accepted
 ```
+
+## Request and Response
+
+creroute imolements custom request object and response 
