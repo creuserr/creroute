@@ -29,8 +29,6 @@ const router = require("./router.js");
 
 ## Routing a GET request
 
-To route a GET request, assign it with `router.get`.
-
 ```javascript
 router.get("/get-route", function(req, res) {
   // ...
@@ -38,3 +36,19 @@ router.get("/get-route", function(req, res) {
 ```
 
 ## Routing a POST request
+
+```javascript
+router.post("/post-route", function(req, res) {
+  // ...
+});
+```
+
+## Routing a request
+
+For other methods, use `route`
+
+```javascript
+router.route("DELETE", "/delete-route", function(req, res) {
+  // ...
+});
+```
