@@ -65,3 +65,12 @@ router.notfound(function(req, res) {
 });
 ```
 
+## Path syntax
+
+Every router path supports a special path syntax.
+
+For absolute path, you can directly pass the keyword.
+
+```
+/apo/
+```
