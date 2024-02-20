@@ -72,8 +72,10 @@ Every router path supports these special path syntax.
 For absolute path, you can directly pass the keyword.
 
 ```
+Path: /user/johndoe
 
-/foo/bar/baz -> /foo/bar/baz
+/user/someone -> 
+
 ```
 
 For dynamic path, you can insert `:` and then the name of the parameter.
