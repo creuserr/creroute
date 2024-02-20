@@ -193,9 +193,9 @@ req.end(200, "200 Success");
 
 #### Redirect
 
-`redirect` moves the request to another server. `sratus`
+`redirect` moves the request to another server. The default **status** is 302 (temporary).
 
 ```javascript
-// req.end(<URL>, <STATUS>)
-req.end(200, "200 Success");
+// req.redirect(<URL>, <STATUS>)
+req.redirect("https://example.com/");
 ```
