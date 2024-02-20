@@ -111,6 +111,13 @@ creroute implements custom request object and response object.
 {
   query: String,
   headers: Object,
-  pars:
+  params: Object,
+  method: String,
+  body: String | Buffer,
+  cookie: String,
+  url: String,
+  real: Object
 }
 ```
+
+All of those data are inherited from the rewuest
