@@ -180,4 +180,11 @@ req.set("Content-Length", 0);
 
 #### End
 
-`end` closes the connection w
+`end` closes the connection with content and status.
+
+```javascript
+req.set
+```
+
+> [!WARNING]
+> You can only call `end` once. Do not rec
