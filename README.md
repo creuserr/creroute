@@ -170,3 +170,14 @@ params = {
 `real` is the only non-custom key, which is the actual response object.
 
 #### Set
+
+`set` is a shortcut function to set a header.
+
+```javascript
+req.set("Content-Type", "text/plain");
+req.set("Content-Length", 0);
+```
+
+#### End
+
+`end` closes the connection w
