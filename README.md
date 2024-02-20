@@ -39,8 +39,6 @@ const router = require("./router.js");
 module.exports = router.export;
 ```
 
-`router.export` 
-
 ## Routes
 
 ### Routing a GET request
@@ -157,3 +155,14 @@ params = {
 #### Body
 
 `body` is either a buffer or string depending on the attached data. This parameter is not defined when the request method is not POST.
+
+### Response
+
+```javascript
+{
+  real: Object,
+  set: Function(header, value),
+  end: Function(status, content)
+}
+```
+
