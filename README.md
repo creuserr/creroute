@@ -32,7 +32,7 @@ console.log(router._version);
 
 ### In `vercel.json`
 
-It is very advisable to destinat
+It is very advisable to designate all path to `index.js`.
 
 ### In `index.js`
 
