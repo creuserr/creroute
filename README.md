@@ -80,10 +80,10 @@ Path: /user/johndoe
 
 ```
 
-For dynamic path, you can insert `:` and then the name of the parameter.
+For dynamic path, you can insert `:` and then the name of the parameter. Take note that 
 
 ```
 Path: /:foo/:bar
 
-/hell
+/path/to/foo/ -> Not accepted
 ```
