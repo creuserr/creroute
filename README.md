@@ -140,4 +140,6 @@ params = {
 }
 ```
 
-#### body
+#### Body
+
+`body` is either a buffer or string depending on the attached data. This parameter is not defined when the request method is not POST.
