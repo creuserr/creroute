@@ -67,10 +67,17 @@ router.notfound(function(req, res) {
 
 ## Path syntax
 
-Every router path supports a special path syntax.
+Every router path supports these special path syntax.
 
 For absolute path, you can directly pass the keyword.
 
 ```
-/apo/
+
+/foo/bar/baz -> /foo/bar/baz
+```
+
+For dynamic path, you can insert `:` and then the name of the parameter.
+
+```
+/foo
 ```
