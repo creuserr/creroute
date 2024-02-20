@@ -74,12 +74,16 @@ For absolute path, you can directly pass the keyword.
 ```
 Path: /user/johndoe
 
-/user/someone -> 
+/user/someone -> Not accepted
+/user/janedoe -> Not accepted
+/user/johndoe -> Accepted
 
 ```
 
 For dynamic path, you can insert `:` and then the name of the parameter.
 
 ```
-/foo
+Path: /:foo/:bar
+
+/hell
 ```
