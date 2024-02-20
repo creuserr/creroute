@@ -27,7 +27,9 @@ const router = require("./router.js");
 
 # Documentation
 
-## Routing a GET request
+## Routes
+
+### Routing a GET request
 
 ```javascript
 // router.get(<PATH>, <CALLBACK>)
@@ -36,7 +38,7 @@ router.get("/get-route", function(req, res) {
 });
 ```
 
-## Routing a POST request
+### Routing a POST request
 
 ```javascript
 // router.post(<PATH>, <CALLBACK>)
@@ -45,7 +47,7 @@ router.post("/post-route", function(req, res) {
 });
 ```
 
-## Routing a request
+### Routing a request
 
 ```javascript
 // router.route(<METHOD>, <PATH>, <CALLBACK>)
@@ -54,4 +56,12 @@ router.route("DELETE", "/delete-route", function(req, res) {
 });
 ```
 
-## Routing a 404 
+### Routing a 404 request
+
+```javascript
+// router.notfound(<CALLBACK>)
+router.notfound(function(req, res) {
+  // ...
+});
+```
+
