@@ -19,7 +19,7 @@ module.exports = router.export;
 
 # Installation
 
-The only method to install creroute is by downloading it and importing it locally.
+The only method to install creroute is by [downloading](https://crestatic.vercel.app/creuserr/creroute/router.js) it and importing it locally.
 
 ```javascript
 const router = require("./router.js");
@@ -189,7 +189,7 @@ req.end(200, "200 Success");
 ```
 
 > [!WARNING]
-> Once closed, do not call `redirect` or ` end` again to prevent errors.
+> Once closed, do not call `redirect` or `end` again to prevent errors.
 
 #### Redirect
 
