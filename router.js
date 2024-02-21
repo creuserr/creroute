@@ -71,13 +71,15 @@ router.export = function(req, res) {
       this.real.status(stat).send(text);
     }
   }
-  // if the router is POST and the body is defined
-  // forma
+  // check if the router is POST and the body is defined
   if(req.method == "POST" && req.body != null) {
+    // if so, collect the chunks of data
     var cur = null;
     req.on("data", function(chunk) {
       if(cur == null) {
+        // string compatible
         if(typeof chunk == "string") cur = chunk;
+        // buffer compatible
         else cur = [chunk];
       } else {
         if(typeof chunk == "string") cur += chunk;
@@ -88,7 +90,9 @@ router.export = function(req, res) {
       xreq.body = typeof cur == "string" ? cur : Buffer.concat(cur);
       process();
     });
-  } else process();
+  }
+  // if not, skip the body
+  else process();
   function process() {
     var unused = true;
     router._routes.forEach(function(route) {
