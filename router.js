@@ -56,7 +56,7 @@ router.export = function(req, res) {
       local: req.socket.localAddress
     },
     proxy: req.headers["x-forwarded-to"],
-    hash: new URL(req.url).hash.slice(1),
+    hash: new URL("a://a.a/" + req.url).hash.slice(1),
     cookie: req.cookie.split(";").map(function(d) {
       var v = d.split("=");
       var k = v.shift();
@@ -114,7 +114,7 @@ router.export = function(req, res) {
       if(unused == false) return;
       var use = true;
       // parse the requested path excluding the hash and query
-      var path = router._parse(new URL(res.url).pathname);
+      var path = router._parse(new URL("a://a.a/" + res.url).pathname);
       if(path.length == 0 && route.path.length == 0) {
         unused = false;
         return route.func(xreq, xres);
