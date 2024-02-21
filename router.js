@@ -55,6 +55,8 @@ router.export = function(req, res) {
       remote: req.socket.remoteAddress,
       local: req.socket.localAddress
     },
+    type: req.headers["content-type"],
+    length: req.headers["content-length"],
     proxy: req.headers["x-forwarded-to"],
     hash: new URL("a://a.a/" + req.url).hash.slice(1),
     cookie: req.cookie.split(";").map(function(d) {
