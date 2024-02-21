@@ -90,12 +90,17 @@ router.export = function(req, res) {
     /* v1.2 */
     // refer to a specific route
     refer(path) {
-      var req = this.request;
-      var res = this.response;
+      var ret = false;
+      var f = null;
       routes._routes.forEach(function(r) {
+        if(ret == true) return;
         if(r.path.join("/") == path.join("/")) {
+          f = r.func;
+          ret = true;
+        }
       });
-      return false;
+      f(this.request, this.response);
+      return ret;
     }
   }
   xres.request = xreq;
