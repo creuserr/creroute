@@ -114,7 +114,7 @@ router.export = function(req, res) {
       if(unused == false) return;
       var use = true;
       // parse the requested path excluding the hash and query
-      var path = router._parse(req.url.split("#")[0].split("?")[0]);
+      var path = router._parse(new URL(res.url).pathname);
       if(path.length == 0 && route.path.length == 0) {
         unused = false;
         return route.func(xreq, xres);
