@@ -75,8 +75,9 @@ router.export = function(req, res) {
       this.real.setHeader(key, val);
     },
     // write the header for redirection and close the connection
-    redirect(loc, stat) {
-      this.real.writeHead(stat || 302, {
+    // v1.2 modification: ispermanent
+    redirect(loc, ispermanent) {
+      this.real.writeHead(ispermanent == true ? 301 : 302, {
         Location: loc
       });
       this.real.end();
