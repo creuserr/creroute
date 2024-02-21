@@ -87,6 +87,7 @@ router.export = function(req, res) {
       }
     });
     req.on("end", function() {
+      // define the bo
       xreq.body = typeof cur == "string" ? cur : Buffer.concat(cur);
       process();
     });
@@ -128,15 +129,18 @@ router.export = function(req, res) {
           if(segment != route.path[i]) use = false;
         });
       }
-      // if the criteri
+      // if the criteria is satisfied, use the route
       if(use) {
         unused = false;
         route.func(xreq, xres);
       }
     });
+    // check if no route is used
     if(unused) {
+      // if not found route is define, use it
       if(router._nf != null) router._nf(xreq, xres);
       else {
+        // if not, throw the server-provided response
         xres.set("Content-Type", "text/plain");
         xres.end(404, "404 Not Found: Connection closed by the router");
       }
