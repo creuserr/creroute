@@ -2,9 +2,58 @@ var router = {};
 router._version = "1.2";
 router._routes = [];
 
+/* V1.2 */
+router._rules = [];
+router._prefix = null;
+
+router.rule = {
+  hascookie(key) {
+    // check if the cookie exist
+    router._rules.push(function(req) {
+      return req.cookies[key] != null;
+    });
+  },
+  iscookie(key, val) {
+    // check if the cookie matches the value
+    router._rules.push(function(req) {
+      return req.cookies[key] == val;
+    });
+  },
+  hasheader(key) {
+    // check if the cookie exist
+    router._rules.push(function(req) {
+      return req.headers[key] != null;
+    });
+  },
+  isheader(key, val) {
+    // check if the header matches the value
+    router._rules.push(function(req) {
+      return req.headers[key] == val;
+    });
+  },
+  istype(val) {
+    // check if the content type matches the value
+    router._rules.push(function(req) {
+      return req.type == val;
+    });
+  },
+  hasbody() {
+    // check if the body is provided
+    router._rules.push(function(req) {
+      return req.body != null;
+    });
+  },
+  isparam(key, val) {
+    // check if the parameter matches the value
+    router._rules.push(function(req) {
+      return req.params[key] == val;
+    });
+  },
+}
+
 // split the path and remove unnecessary segment
 router._parse = function(raw) {
-  return raw.split("/").map(function(i) {
+  return `${router._prefix || ""}/${raw}`.split("/").map(function(i) {
     return i.trim();
   }).filter(function(i) {
     return i.length > 0;
@@ -15,24 +64,30 @@ router._parse = function(raw) {
 router.route = function(method, path, func) {
   router._routes.push({
     method, func,
-    path: router._parse(path)
+    path: router._parse(path),
+    rules: router._rules
   });
+  router._rules = [];
 }
 
 // add a route with GET method
 router.get = function(path, func) {
   router._routes.push({
     method: "GET", func,
-    path: router._parse(path)
+    path: router._parse(path),
+    rules: router._rules
   });
+  router._rules = [];
 }
 
 // add a route with POST method
 router.post = function(path, func) {
   router._routes.push({
     method: "POST", func,
-    path: router._parse(path)
+    path: router._parse(path),
+    rules: router._rules
   });
+  router._rules = [];
 }
 
 // define the not found route
@@ -60,7 +115,7 @@ router.export = function(req, res) {
     agent: req.headers["user-agent"],
     proxy: req.headers["x-forwarded-to"],
     hash: new URL("a://a.a/" + req.url).hash.slice(1),
-    cookie: req.cookie.split(";").map(function(d) {
+    cookies: req.cookie.split(";").map(function(d) {
       var v = d.split("=");
       var k = v.shift();
       return [k, v.join("=")];
@@ -133,7 +188,7 @@ router.export = function(req, res) {
       // if a route is used, skip all routes
       if(unused == false) return;
       var use = true;
-      // parse the requested path excluding the hash and query
+      // parse the requested path into an array
       var path = router._parse(new URL("a://a.a/" + res.url).pathname);
       // if the path and route path is both for home (/),
       // skip the criteria and use the route
@@ -165,6 +220,13 @@ router.export = function(req, res) {
           if(segment != route.path[i]) use = false;
         });
       }
+      // loop each rules
+      route.rules.forEach(function(r) {
+        // call the rule function
+        var c = r(xreq);
+        // if the rule is not satisfied, skip the router
+        if(c == false) use = false;
+      });
       // if the criteria is satisfied, use the route
       if(use) {
         unused = false;
