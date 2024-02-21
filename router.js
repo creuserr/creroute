@@ -99,12 +99,10 @@ router.export = function(req, res) {
           ret = true;
         }
       });
-      f(this.request, this.response);
+      f(xreq, xres);
       return ret;
     }
   }
-  xres.request = xreq;
-  xreq.response = xres;
   // check if the router is POST and the body is defined
   if(req.method == "POST" && req.body != null) {
     // if so, collect the chunks of data
