@@ -112,10 +112,14 @@ router.export = function(req, res) {
       else if(route.path.join("/").includes(":")) {
         // check for each path segment
         path.forEach(function(segment, i) {
-          // if the segment is 
+          // check if the segment is dynamic
           if(route.path[i].startsWith(":")) {
+            // define the parameter
             xreq.params[route.path[i].slice(1)] = segment;
-          } else if(segment != route.path[i]) use = false;
+          }
+          // if not, check if the segment is the same as the route segment
+          // if not, skip the route
+          else if(segment != route.path[i]) use = false;
         });
       } else if(use) {
         // check for each path segment
@@ -124,6 +128,7 @@ router.export = function(req, res) {
           if(segment != route.path[i]) use = false;
         });
       }
+      // if the criteri
       if(use) {
         unused = false;
         route.func(xreq, xres);
