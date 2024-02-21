@@ -2,6 +2,7 @@ var router = {};
 router._version = 1;
 router._routes = [];
 
+// split the path and remove unnecessary segment
 router._parse = function(raw) {
   return raw.split("/").map(function(i) {
     return i.trim();
@@ -10,6 +11,7 @@ router._parse = function(raw) {
   });
 }
 
+// add a route with a custom method
 router.route = function(method, path, func) {
   router._routes.push({
     method, func,
@@ -17,6 +19,7 @@ router.route = function(method, path, func) {
   });
 }
 
+// add a route with GET method
 router.get = function(path, func) {
   router._routes.push({
     method: "GET", func,
@@ -24,6 +27,7 @@ router.get = function(path, func) {
   });
 }
 
+//a
 router.post = function(path, func) {
   router._routes.push({
     method: "POST", func,
