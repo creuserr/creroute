@@ -64,7 +64,7 @@ router.export = function(req, res) {
       var k = v.shift();
       return [k, v.join("=")];
     }).filter(function(d) {
-      return !["expires", "path"].includes(d[0])
+      return !["expires", "path"].includes(d[0]);
     })
   }
   // implementation of response
