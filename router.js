@@ -5,6 +5,7 @@ router._routes = [];
 /* V1.2 */
 router._rules = [];
 router._prefix = null;
+router._closemsg = "404 Not Found: Connection closed by the router";
 
 router.rule = {
   hascookie(key) {
@@ -188,14 +189,9 @@ router.export = function(req, res) {
       // if a route is used, skip all routes
       if(unused == false) return;
       var use = true;
+      var skipseg = false;
       // parse the requested path into an array
       var path = router._parse(new URL("a://a.a/" + res.url).pathname);
-      // if the path and route path is both for home (/),
-      // skip the criteria and use the route
-      if(path.length == 0 && route.path.length == 0) {
-        unused = false;
-        return route.func(xreq, xres);
-      }
       // if not the same method, skip the route
       if(req.method != route.method) use = false;
       // if not the same path length, skip the route
@@ -240,7 +236,7 @@ router.export = function(req, res) {
       else {
         // if not, throw the server-provided response
         xres.set("Content-Type", "text/plain");
-        xres.end(404, "404 Not Found: Connection closed by the router");
+        xres.end(404, router._closemsg);
       }
     }
   }
