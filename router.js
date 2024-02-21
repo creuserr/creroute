@@ -48,14 +48,15 @@ router.export = function(req, res) {
     params: {},
     method: req.method,
     body: null,
-    cookie: req.cookie,
     url: req.url,
     real: req,
-    // v2 implementation
+    // v1.2
     address: {
       remote: req.socket.remoteAddress,
       local: req.socket.localAddress
-    }
+    },
+    proxy: req.headers["x-forwarded-to"],
+    cookie: req.cookie.split(";").map(function(c))
   }
   // implementation of response
   var xres = {
