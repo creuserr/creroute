@@ -90,13 +90,16 @@ router.export = function(req, res) {
     /* v1.2 */
     // refer to a specific route
     refer(path) {
-      var req = this
-      routes._routes.forEach(function(i) {
-        
+      var req = this.request;
+      var res = this.response;
+      routes._routes.forEach(function(r) {
+        if(r.path.join("/") == path.join("/")) {
       });
+      return false;
     }
   }
-  xres.re
+  xres.request = xreq;
+  xreq.response = xres;
   // check if the router is POST and the body is defined
   if(req.method == "POST" && req.body != null) {
     // if so, collect the chunks of data
