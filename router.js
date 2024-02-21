@@ -56,7 +56,13 @@ router.export = function(req, res) {
       local: req.socket.localAddress
     },
     proxy: req.headers["x-forwarded-to"],
-    cookie: req.cookie.split(";").map(function(c))
+    cookie: req.cookie.split(";").map(function(d) {
+      var v = d.split("=");
+      var k = v.shift();
+      return [k, v.join("=")];
+    }).filter(function(d) {
+      return !["expires", ""].includes(d[0])
+    })
   }
   // implementation of response
   var xres = {
