@@ -87,7 +87,7 @@ router.export = function(req, res) {
       }
     });
     req.on("end", function() {
-      // define the bo
+      // define the body
       xreq.body = typeof cur == "string" ? cur : Buffer.concat(cur);
       process();
     });
@@ -96,6 +96,7 @@ router.export = function(req, res) {
   else process();
   function process() {
     var unused = true;
+    // loop each routes
     router._routes.forEach(function(route) {
       if(unused == false) return;
       var use = true;
