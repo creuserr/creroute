@@ -118,6 +118,8 @@ router.export = function(req, res) {
       var use = true;
       // parse the requested path excluding the hash and query
       var path = router._parse(new URL("a://a.a/" + res.url).pathname);
+      // if the path and route path is both for home (/),
+      // skip the criteria and use the route
       if(path.length == 0 && route.path.length == 0) {
         unused = false;
         return route.func(xreq, xres);
