@@ -41,13 +41,6 @@ router.notfound = function(func) {
 }
 
 router.export = function(req, res) {
-  // VERSION 1.2 IMPLEMENTATION
-  function v2() {
-    xreq.ip = {
-      remote: req.socket.remoteAddress,
-      
-    }
-  }
   // implementation of request
   var xreq = {
     query: req.query,
@@ -57,7 +50,12 @@ router.export = function(req, res) {
     body: null,
     cookie: req.cookie,
     url: req.url,
-    real: req
+    real: req,
+    // v2 implementation
+    address: {
+      remote: req.socket.remoteAddress,
+      local: req.socket.localAddress
+    }
   }
   // implementation of response
   var xres = {
@@ -78,7 +76,6 @@ router.export = function(req, res) {
       this.real.status(stat).send(text);
     }
   }
-  v2();
   // check if the router is POST and the body is defined
   if(req.method == "POST" && req.body != null) {
     // if so, collect the chunks of data
