@@ -59,16 +59,20 @@ router.export = function(req, res) {
     set(key, val) {
       this.real.setHeader(key, val);
     },
+    // write the header for redirection and close the connection
     redirect(loc, stat) {
       this.real.writeHead(stat || 302, {
         Location: loc
       });
       this.real.end();
     },
+    // close the connection
     end(stat, text) {
       this.real.status(stat).send(text);
     }
   }
+  // if the router is POST and the body is defined
+  // forma
   if(req.method == "POST" && req.body != null) {
     var cur = null;
     req.on("data", function(chunk) {
