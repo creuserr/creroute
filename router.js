@@ -50,7 +50,7 @@ router.export = function(req, res) {
     body: null,
     url: req.url,
     real: req,
-    // v1.2
+    /* v1.2 */
     address: {
       remote: req.socket.remoteAddress,
       local: req.socket.localAddress
@@ -75,7 +75,7 @@ router.export = function(req, res) {
       this.real.setHeader(key, val);
     },
     // write the header for redirection and close the connection
-    // v1.2 modification: ispermanent
+    /* v1.2 modification: ispermanent */
     redirect(loc, ispermanent) {
       this.real.writeHead(ispermanent == true ? 301 : 302, {
         Location: loc
