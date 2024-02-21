@@ -27,7 +27,7 @@ router.get = function(path, func) {
   });
 }
 
-//a
+// add a route with POST method
 router.post = function(path, func) {
   router._routes.push({
     method: "POST", func,
@@ -35,11 +35,13 @@ router.post = function(path, func) {
   });
 }
 
+// define the not found route
 router.notfound = function(func) {
   router._nf = func;
 }
 
 router.export = function(req, res) {
+  // implementation of request
   var xreq = {
     query: req.query,
     headers: req.headers,
@@ -50,8 +52,10 @@ router.export = function(req, res) {
     url: req.url,
     real: req
   }
+  // implementation of response
   var xres = {
     real: res,
+    // set the header
     set(key, val) {
       this.real.setHeader(key, val);
     },
