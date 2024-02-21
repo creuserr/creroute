@@ -86,6 +86,11 @@ router.export = function(req, res) {
     // close the connection
     end(stat, text) {
       this.real.status(stat).send(text);
+    },
+    /* v1.2 */
+    // refer to a specific route
+    refer(path) {
+      routes._routes.forEach(function())
     }
   }
   // check if the router is POST and the body is defined
