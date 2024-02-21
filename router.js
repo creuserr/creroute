@@ -98,13 +98,17 @@ router.export = function(req, res) {
     router._routes.forEach(function(route) {
       if(unused == false) return;
       var use = true;
+      // parse the requested path excluding the hash and query
       var path = router._parse(req.url.split("#")[0].split("?")[0]);
       if(path.length == 0 && route.path.length == 0) {
         unused = false;
         return route.func(xreq, xres);
       }
+      // if not the same method, skip the route
       if(req.method != route.method) use = false;
+      // if not the same path length, skip the route
       else if(route.path.length != path.length) use = false;
+      // check if the route contain dynamic path
       else if(route.path.join("/").includes(":")) {
         path.forEach(function(segment, i) {
           if(route.path[i].startsWith(":")) {
@@ -112,6 +116,7 @@ router.export = function(req, res) {
           } else if(segment != route.path[i]) use = false;
         });
       } else if(use) {
+        // check for 
         path.forEach(function(segment, i) {
           if(segment != route.path[i]) use = false;
         });
