@@ -114,6 +114,7 @@ router.export = function(req, res) {
     var unused = true;
     // loop each routes
     router._routes.forEach(function(route) {
+      // if a route is used, skip all routes
       if(unused == false) return;
       var use = true;
       // parse the requested path excluding the hash and query
