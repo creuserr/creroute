@@ -1,5 +1,5 @@
 var router = {};
-router._version = 1;
+router._version = "1.2";
 router._routes = [];
 
 // split the path and remove unnecessary segment
