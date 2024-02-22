@@ -100,8 +100,10 @@ If not specified, the router will throw error like this instead.
 --------------------
 
 Attempting /echo/:text
-Failed: mismatched length
+Failed: mismatched path length (0 -> 2)
 ```
+
+*0 is the requested path length and 2 is the needed path length*
 
 ## Path syntax
 
@@ -154,7 +156,7 @@ creroute implements custom request object and response object.
   body: String | Buffer,
   cookie: String,
   url: String,
-  real: Object
+  real: Object,
 }
 ```
 
