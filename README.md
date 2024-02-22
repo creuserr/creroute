@@ -223,6 +223,8 @@ req.set("Content-Type", "text/plain");
 req.set("Content-Length", 0);
 ```
 
+*This function is nested and supports chaining.*
+
 #### End
 
 `end` closes the connection with content and status.
@@ -250,6 +252,8 @@ req.redirect("https://example.com/");
 #### Type
 
 `type` defines the content type of the response.
+
+*This function is nested and supports chaining.*
 
 #### Refer
 
