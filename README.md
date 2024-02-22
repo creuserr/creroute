@@ -206,7 +206,8 @@ req.params = {
   set: Function(header, value),
   end: Function(status, content),
   redirect: Function(url, status?),
-  
+  type: Function(type),
+  refer: Function(path)
 }
 ```
 
@@ -245,3 +246,11 @@ req.redirect("https://example.com/");
 
 > [!WARNING]
 > Once redirected, do not call `end` or `redirect` again to prevent errors.
+
+#### Type
+
+`type` defines the content type of the response.
+
+#### Refer
+
+`refer` calls the function from the 
