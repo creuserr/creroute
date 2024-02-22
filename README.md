@@ -161,6 +161,10 @@ creroute implements custom request object and response object.
     real: String // only works if vercel provided the real ip
   },
   type: String, // content type
+  length: Number,
+  agent: String,
+  proxy: String, // only works if the proxy is provided
+  hash: String, 
   url: String,
   real: Object,
 }
