@@ -5,13 +5,11 @@ Lightweight HTTP server router for NodeJS
 const router = require("./router.js");
 
 router.get("/echo/:text", function(req, res) {
-  res.set("Content-Type", "text/plain");
-  res.end(200, req.params.text);
+  res.type("text/plain").end(200, req.params.text);
 });
 
 router.notfound(function(req, res) {
-  res.set("Content-Type", "text/plain");
-  res.end(404, "Uh oh, page not found");
+  res.type("text/plain").end(404, "Uh oh, page not found");
 });
 
 module.exports = router.export;
@@ -23,7 +21,6 @@ The only method to install creroute is by [downloading](https://crestatic.vercel
 
 ```javascript
 const router = require("./router.js");
-console.log(router._version);
 ```
 
 # Documentation
@@ -42,6 +39,8 @@ It is required to designate all path to `index.js`.
   }]
 }
 ```
+
+Otherwise, you will need to add prefixes to each route.
 
 ### In `index.js`
 
