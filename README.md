@@ -164,13 +164,13 @@ creroute implements custom request object and response object.
   length: Number,
   agent: String,
   proxy: String, // only works if the proxy is provided
-  hash: String, 
+  hash: String,
   url: String,
   real: Object,
 }
 ```
 
-All of those data are inherited from the request object, excluding `params`, `body`, and `real`.
+All of those data are inherited from the request object, excluding some parts:
 
 #### Real
 
@@ -194,6 +194,10 @@ req.params = {
 
 `body` is either a buffer or string depending on the attached data. This parameter is not defined when the request method is not POST.
 
+#### Cookie
+
+`cookie` is an object inherited from the raw cookie data.
+
 ### Response
 
 ```javascript
@@ -201,7 +205,8 @@ req.params = {
   real: Object,
   set: Function(header, value),
   end: Function(status, content),
-  redirect: Function(url, status?)
+  redirect: Function(url, status?),
+  
 }
 ```
 
