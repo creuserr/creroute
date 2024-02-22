@@ -92,11 +92,15 @@ router.notfound(function(req, res) {
 });
 ```
 
-If not specified, the router will throw this instead.
+If not specified, the router will throw error like this instead.
 
-```ja
+```
 404 Not Found: No satisfied router
-[connection]
+[Connection closed by the router]
+--------------------
+
+Attempting /echo/:text
+Failed: mismatched length
 ```
 
 ## Path syntax
