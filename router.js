@@ -81,18 +81,12 @@ router._res = (req, res) => {
 }
 
 router._body = (req, on) => {
-  var cur = null
+  var cur = []
   req.real.on("data", chunk => {
-    if(cur == null) {
-      if(typeof chunk == "string") cur = chunk
-      else cur = [chunk]
-    } else {
-      if(typeof chunk == "string") cur += chunk
-      else cur.push(chunk)
-    }
+    cur.push(chunk)
   })
   req.real.on("end", () => {
-    req.body = typeof cur == "string" ? cur : Buffer.concat(cur)
+    req.body = Buffer.concat(cur)
     on()
   })
 }
@@ -115,8 +109,8 @@ router.notfound = func => {
 router.export = (req, res) => {
   var request = router._req(req)
   var response = router._res(req, res)
-  if(req.method == "POST" && req.body != null) {
-    request._body(req, search)
+  if(req.method == "POST" && req.headers["content-length"] > 0) {
+    router._body(request, search)
   } else search()
   function search() {
     var data = []
