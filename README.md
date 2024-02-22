@@ -149,12 +149,18 @@ creroute implements custom request object and response object.
 
 ```javascript
 {
-  query: String,
+  query: String, 
   headers: Object,
   params: Object,
   method: String,
   body: String | Buffer,
-  cookie: String,
+  cookie: Object,
+  address: {
+    local: String,
+    remote: String,
+    real: String // only works if vercel provided the real ip
+  },
+  type: String, // content type
   url: String,
   real: Object,
 }
