@@ -258,7 +258,15 @@ req.redirect("https://example.com/");
 ```
 router.get("/forbidden-things", function(req, res) {
   if(req.headers["X-Secret-Key"] == null) {
-    res.refer("/no")
+    return res.refer("/notfound")
   }
+})
+
+router.get("/notfound", function(req, res) {
+  res.type("text/plain").end(404, "Not Found")
+})
+
+router.notfound(function(req, res) {
+  res.refer
 })
 ```
