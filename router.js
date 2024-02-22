@@ -1,104 +1,28 @@
-var router = {};
-router._version = "1.2";
-router._routes = [];
+var router = {}
+router._routes = []
 
-/* V1.2 */
-router._rules = [];
-router._prefix = null;
-router._closemsg = "404 Not Found: Connection closed by the router";
-
-router.rule = {
-  hascookie(key) {
-    // check if the cookie exist
-    router._rules.push(function(req) {
-      return req.cookies[key] != null;
-    });
-  },
-  iscookie(key, val) {
-    // check if the cookie matches the value
-    router._rules.push(function(req) {
-      return req.cookies[key] == val;
-    });
-  },
-  hasheader(key) {
-    // check if the cookie exist
-    router._rules.push(function(req) {
-      return req.headers[key] != null;
-    });
-  },
-  isheader(key, val) {
-    // check if the header matches the value
-    router._rules.push(function(req) {
-      return req.headers[key] == val;
-    });
-  },
-  istype(val) {
-    // check if the content type matches the value
-    router._rules.push(function(req) {
-      return req.type == val;
-    });
-  },
-  hasbody() {
-    // check if the body is provided
-    router._rules.push(function(req) {
-      return req.body != null;
-    });
-  },
-  isparam(key, val) {
-    // check if the parameter matches the value
-    router._rules.push(function(req) {
-      return req.params[key] == val;
-    });
-  },
+router._parse = raw => {
+  return raw.split("/").map(i => {
+    return i.trim()
+  }).filter(i => {
+    return i.length > 0
+  })
 }
 
-// split the path and remove unnecessary segment
-router._parse = function(raw) {
-  return `${router._prefix || ""}/${raw}`.split("/").map(function(i) {
-    return i.trim();
-  }).filter(function(i) {
-    return i.length > 0;
-  });
-}
-
-// add a route with a custom method
-router.route = function(method, path, func) {
-  router._routes.push({
-    method, func,
-    path: router._parse(path),
-    rules: router._rules
-  });
-  router._rules = [];
-}
-
-// add a route with GET method
-router.get = function(path, func) {
-  router._routes.push({
-    method: "GET", func,
-    path: router._parse(path),
-    rules: router._rules
-  });
-  router._rules = [];
-}
-
-// add a route with POST method
-router.post = function(path, func) {
-  router._routes.push({
-    method: "POST", func,
-    path: router._parse(path),
-    rules: router._rules
-  });
-  router._rules = [];
-}
-
-// define the not found route
-router.notfound = function(func) {
-  router._nf = func;
-}
-
-router.export = function(req, res) {
-  // implementation of request
-  var xreq = {
+router._req = req => {
+  var hash = new URL("a://a.a" + req.url).hash.slice(1)
+  hash = hash.length == 0 ? null : hash
+  var cookie = null
+  if(req.cookie) {
+    cookie = req.cookie.split(";").map(c => {
+      var v = c.split("=")
+      var k = v.shift()
+      return [k, v.join("=")]
+    }).filter(c => {
+      return !["expires", "path"].includes(c[0])
+    })
+  }
+  return {
     query: req.query,
     headers: req.headers,
     params: {},
@@ -106,138 +30,128 @@ router.export = function(req, res) {
     body: null,
     url: req.url,
     real: req,
-    /* v1.2 */
     address: {
       remote: req.socket.remoteAddress,
-      local: req.socket.localAddress
+      local: req.socket.localAddress,
+      real: req.headers["x-real-ip"]
     },
     type: req.headers["content-type"],
     length: req.headers["content-length"],
     agent: req.headers["user-agent"],
     proxy: req.headers["x-forwarded-to"],
-    hash: new URL("a://a.a/" + req.url).hash.slice(1),
-    cookies: req.cookie.split(";").map(function(d) {
-      var v = d.split("=");
-      var k = v.shift();
-      return [k, v.join("=")];
-    }).filter(function(d) {
-      return !["expires", "path"].includes(d[0]);
-    })
+    hash, cookie
   }
-  // implementation of response
-  var xres = {
+}
+
+router._res = (req, res) => {
+  return {
     real: res,
-    // set the header
     set(key, val) {
-      this.real.setHeader(key, val);
+      this.real.setHeader(key, val)
+      return this
     },
-    // write the header for redirection and close the connection
-    /* v1.2 modification: ispermanent */
+    type(val) {
+      this.set("Content-Type", val)
+      return this
+    },
     redirect(loc, ispermanent) {
       this.real.writeHead(ispermanent == true ? 301 : 302, {
         Location: loc
-      });
-      this.real.end();
+      })
+      this.real.end()
     },
-    // close the connection
     end(stat, text) {
-      this.real.status(stat).send(text);
+      this.real.statusCode = stat
+      this.real.end(text)
     },
-    /* v1.2 */
-    // refer to a specific route
     refer(path) {
-      var ret = false;
-      var f = null;
-      routes._routes.forEach(function(r) {
-        if(ret == true) return;
-        if(r.path.join("/") == path.join("/")) {
-          f = r.func;
-          ret = true;
+      var ret = false
+      var f = null
+      routes._routes.forEach(route => {
+        if(ret == true) return
+        if(route.path.join("/") == path.join("/")) {
+          f = r.func
+          ret = true
         }
-      });
-      f(xreq, xres);
-      return ret;
+      })
+      if(f != null) f(req, res)
+      return ret
     }
   }
-  // check if the router is POST and the body is defined
+}
+
+router._body = (req, on) => {
+  var cur = null
+  req.real.on("data", chunk => {
+    if(cur == null) {
+      if(typeof chunk == "string") cur = chunk
+      else cur = [chunk]
+    } else {
+      if(typeof chunk == "string") cur += chunk
+      else cur.push(chunk)
+    }
+  })
+  req.real.on("end", () => {
+    req.body = typeof cur == "string" ? cur : Buffer.concat(cur)
+    on()
+  })
+}
+
+router.route = (method, path, func) => {
+  router._routes.push({
+    method, func,
+    path: router._parse(path)
+  })
+}
+
+router.get = (path, func) => router.route("GET", path, func)
+
+router.post = (path, func) => router.route("POST", path, func)
+
+router.notfound = func => {
+  router._fallback = func
+}
+
+router.export = (req, res) => {
+  var request = router._req(req)
+  var response = router._res(req, res)
   if(req.method == "POST" && req.body != null) {
-    // if so, collect the chunks of data
-    var cur = null;
-    req.on("data", function(chunk) {
-      if(cur == null) {
-        // string compatible
-        if(typeof chunk == "string") cur = chunk;
-        // buffer compatible
-        else cur = [chunk];
-      } else {
-        if(typeof chunk == "string") cur += chunk;
-        else cur.push(chunk);
-      }
-    });
-    req.on("end", function() {
-      // define the body
-      xreq.body = typeof cur == "string" ? cur : Buffer.concat(cur);
-      process();
-    });
-  }
-  // if not, skip the body
-  else process();
-  function process() {
-    var unused = true;
-    // loop each routes
-    router._routes.forEach(function(route) {
-      // if a route is used, skip all routes
-      if(unused == false) return;
-      var use = true;
-      var skipseg = false;
-      // parse the requested path into an array
-      var path = router._parse(new URL("a://a.a/" + res.url).pathname);
-      // if not the same method, skip the route
-      if(req.method != route.method) use = false;
-      // if not the same path length, skip the route
-      else if(route.path.length != path.length) use = false;
-      // check if the route contain dynamic path
-      else if(route.path.join("/").includes(":")) {
-        // check for each path segment
-        path.forEach(function(segment, i) {
-          // check if the segment is dynamic
-          if(route.path[i].startsWith(":")) {
-            // define the parameter
-            xreq.params[route.path[i].slice(1)] = segment;
-          }
-          // if not, check if the segment is the same as the route segment
-          // if not, skip the route
-          else if(segment != route.path[i]) use = false;
-        });
-      } else if(use) {
-        // check for each path segment
-        path.forEach(function(segment, i) {
-          // if a segment is not the same as the route segment, skip the route 
-          if(segment != route.path[i]) use = false;
-        });
-      }
-      // loop each rules
-      route.rules.forEach(function(r) {
-        // call the rule function
-        var c = r(xreq);
-        // if the rule is not satisfied, skip the router
-        if(c == false) use = false;
-      });
-      // if the criteria is satisfied, use the route
+    request._body(req, search)
+  } else search()
+  function search() {
+    var data = []
+    var done = false
+    var path = router._parse(req.url.split("#")[0].split("?")[0])
+    router._routes.forEach(route => {
+      if(done) return
+      var use = true
+      var cdata = [`Attempting /${route.path.join("/")}`]
+      if(route.method != req.method) {
+        use = false
+        cdata.push(`Failed: mismatched method (${req.method} -> ${route.method})`)
+      } else if(route.path.length != path.length) {
+        use = false
+        cdata.push(`Failed: mismatched path length (${path.length} -> ${route.path.length})`)
+      } else path.forEach(function(seg, i) {
+        var match = route.path[i]
+        if(match.startsWith(":")) {
+          request.params[match.slice(1)] = seg
+          cdata.push(`Parameter applied (${seg} -> ${match.slice(1)})`)
+        } else if(match != seg) {
+          use = false
+          cdata.push(`Failed: mismatched segment (#${i} ${seg} -> ${match})`)
+        }
+      })
       if(use) {
-        unused = false;
-        route.func(xreq, xres);
+        done = true
+        route.func(request, response)
+      } else {
+        data.push(cdata.join("\n"))
       }
-    });
-    // check if no route is used
-    if(unused) {
-      // if not found route is define, use it
-      if(router._nf != null) router._nf(xreq, xres);
-      else {
-        // if not, throw the server-provided response
-        xres.set("Content-Type", "text/plain");
-        xres.end(404, router._closemsg);
-      }
+    })
+    if(!done) {
+      if(router._fallback != null) router._fallback(request, response)
+      else response.type("text/plain").end(404, `404 Not Found: No satisfied route\n[Connection closed by the router]\n${"-".repeat(20)}\n\n${data.join("\n\n")}`)
     }
   }
 }
