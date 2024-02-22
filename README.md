@@ -29,7 +29,7 @@ const router = require("./router.js");
 
 ### Configuration 
 
-In `vercel.json`, it is required to designate all path to `index.js`.
+In your `vercel.json`, it is highly recommended to designate all path to `index.js`.
 
 ```json
 {
