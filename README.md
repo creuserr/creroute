@@ -267,6 +267,9 @@ router.get("/notfound", function(req, res) {
 })
 
 router.notfound(function(req, res) {
-  res.refer
+  res.refer("/notfound")
 })
 ```
+
+> [!WARNING]
+> Do not end the connection after referring. Let the referred route close it to prevent errors.
