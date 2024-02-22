@@ -27,9 +27,9 @@ const router = require("./router.js");
 
 ## Setup
 
-### In `vercel.json`
+### Configuration 
 
-It is required to designate all path to `index.js`.
+In `vercel.json`, it is required to designate all path to `index.js`.
 
 ```json
 {
@@ -42,7 +42,7 @@ It is required to designate all path to `index.js`.
 
 Otherwise, you will need to add prefixes to each route.
 
-### In `index.js`
+### Initialization
 
 To set up the router, you need to set the `module.exports` to `router.export`.
 
@@ -94,9 +94,9 @@ router.notfound(function(req, res) {
 
 If not specified, the router will throw this instead.
 
-```javascript
-// WARNING: Using 204 will affect the URL and will not send the provided content.
-res.end(200, "204 No Content: Connection closed by the router");
+```ja
+404 Not Found: No satisfied router
+[connection]
 ```
 
 ## Path syntax
