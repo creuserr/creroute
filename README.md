@@ -253,4 +253,12 @@ req.redirect("https://example.com/");
 
 #### Refer
 
-`refer` calls the function from the 
+`refer` calls the function from the other router.
+
+```
+router.get("/forbidden-things", function(req, res) {
+  if(req.headers["X-Secret-Key"] == null) {
+    res.refer("/no")
+  }
+})
+```
