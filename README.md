@@ -235,7 +235,7 @@ req.end(200, "200 Success");
 ```
 
 > [!WARNING]
-> Once closed, do not call `redirect` or `end` again to prevent errors.
+> Once closed, do not call `end` or `redirect` again to prevent errors.
 
 #### Redirect
 
@@ -247,11 +247,19 @@ req.redirect("https://example.com/");
 ```
 
 > [!WARNING]
-> Once redirected, do not call `end` or `redirect` again to prevent errors.
+> Once redirected, do not call `redirect` or `end` again to prevent errors.
 
 #### Type
 
 `type` defines the content type of the response.
+
+```javascript
+// req.type(<CONTENT-TYPE>)
+req.type("text/plain").end(...);
+
+// or simply
+req.set("Content-Type", "text/plain");
+```
 
 *This function is nested and supports chaining.*
 
