@@ -1,5 +1,11 @@
 var router = {}
 router._routes = []
+router.version = 2;
+
+router.page = (src) => {
+  var f = await fetch(src);
+  var res = await f.text();
+}
 
 router._parse = raw => {
   return raw.split("/").map(i => {
