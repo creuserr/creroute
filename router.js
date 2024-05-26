@@ -10,7 +10,7 @@ router._parse = raw => {
 }
 
 router._req = req => {
-  var hash = new URL("a://a.a" + req.url).hash.slice(1)
+  var hash = new URL("x://x.x" + req.url).hash.slice(1)
   hash = hash.length == 0 ? null : hash
   var cookie = null
   if(req.cookie) {
