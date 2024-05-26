@@ -7,7 +7,7 @@ router.page = (src, pre = "", post = "") => {
   var res = await f.text();
   var re = /<!-+\s*dune\s*-+>\s*<script\b[^>]*>([\s\S]*?)<\/script>/gmis
   var matches = [...res.matchAll(re)];
-  return res.replaceAll(re, (_, s => eval(`${pre};${s};${post{`)));
+  return res.replaceAll(re, (_, s => eval(`${pre};${s};${post}`)));
 }
 
 router._parse = raw => {
