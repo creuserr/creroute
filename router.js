@@ -2,7 +2,7 @@ var router = {}
 router._routes = []
 router.version = 2;
 
-router.page = (src, pre = "", post = "") => {
+router.page = async (src, pre = "", post = "") => {
   var f = await fetch(src);
   var res = await f.text();
   var re = /<!-+\s*dune\s*-+>\s*<script\b[^>]*>([\s\S]*?)<\/script>/gmis
